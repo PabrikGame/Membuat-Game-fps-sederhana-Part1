@@ -1,0 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Nembak : MonoBehaviour
+{   public GameObject peluru;
+    public GameObject tempatMuncul;
+    GameObject temp;
+
+    [SerializeField] float ancur = 2;
+    [SerializeField] float daya = 100;
+
+    [SerializeField] float jarak = 0.1f;
+
+    [SerializeField]bool ready;
+    // Start is called before the first frame update
+    void Start()
+    {
+        ready = true;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetMouseButton(0))
+        { 
+            if(ready == true)
+            {
+            temp = (GameObject)GameObject.Instantiate
+            (peluru, tempatMuncul.transform.position, tempatMuncul.transform.rotation);
+
+            ready = false;
+            Destroy(temp, ancur);
+
+            }
+        }
+
+        if(ready == false) jarak -= 1 * Time.deltaTime;
+
+        if(jarak <= 0){
+            ready = true;
+            jarak = 0.1f;
+        }
+
+        if(temp)
+        {
+            temp.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * daya);
+        }
+    }
+}
